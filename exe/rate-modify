@@ -1,0 +1,26 @@
+#!/usr/bin/guile
+!#
+
+(import (sph) (sph filesystem) (sph alist) (sph rate) (sph string) (sph cli))
+
+(define program-description
+  "this program changes the rating of files relative to their current one.
+  a rating is designated by a numeric directory in the path unequal to the current path.
+  see the \"rate\" program for more information")
+
+(define command-line-interface
+  (cli-create #:description program-description #:options (ql ((direction difference path ...)))))
+
+(define (rate-modify-cli)
+  (let (options (command-line-interface))
+    (alist-quoted-bind options (direction difference path)
+      (each
+        (let (difference (* (if (string-equal? "up" direction) -1 1) (string->number difference)))
+          (l (path)
+            (and-let*
+              ( (current-rating (path->rating (path->full-path path)))
+                (new-rating (max 0 (+ current-rating difference))))
+              (if (not (equal? current-rating new-rating)) (rate new-rating path)))))
+        path))))
+
+(rate-modify-cli)

@@ -1,0 +1,26 @@
+#!/usr/bin/guile
+!#
+
+(import (sph) (sph alist) (sph rate) (sph cli))
+
+(define program-description
+  "this program \"rates\" files by moving them into a numerically named directory.
+  first it searches upwards to see if a numeric directory name exists in path, if yes, the
+  relative directory structure of the given path is moved on that level into a directory named like the given number.
+  if no numeric directory exists in path, and the current working directory is in path, a directory named like the given number is created
+  in the current working directory and the given path is moved there. otherwise nothing happens.
+  examples:
+  rate 2 /a/0/b/c -> /a/2/b/c
+  cwd: /a/b
+  rate 2 /a/b/c -> /a/b/2/c
+  cwd: /
+  rate 2 /a/b/c -> /2/a/b/c")
+
+(define command-line-interface
+  (cli-create #:description program-description #:options (ql ((number path ...)))))
+
+(define (rate-cli)
+  (alist-quoted-bind (command-line-interface) (number path)
+    (let (number (string->number number)) (map (l (path) (rate number path)) path))))
+
+(rate-cli)
