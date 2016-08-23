@@ -14,6 +14,7 @@
     (sph string)
     (only (guile)
       string-prefix?
+      false-if-exception
       getcwd
       rename-file
       dirname
@@ -43,7 +44,9 @@
   (define (path->root-and-rating-and-path& path c)
     (let loop ((prev (list)) (next (reverse (string-split path #\/))))
       (if (null? next) #f
-        (let* ((a (first next)) (a-number (string->number a)))
+        (let*
+          ( (a (first next)) (path-current (string-join (reverse next) "/"))
+            (a-number (and (is-directory? path-current) (false-if-exception (string->number a)))))
           (if (and a-number (not (null? prev)))
             (c (string-join (reverse (tail next)) "/") a-number (string-join prev "/"))
             (loop (pair a prev) (tail next)))))))

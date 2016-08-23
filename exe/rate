@@ -17,10 +17,10 @@
   rate 2 /a/b/c -> /2/a/b/c")
 
 (define command-line-interface
-  (cli-create #:description program-description #:options (ql ((number path ...)))))
+  (cli-create #:description program-description #:options (ql ((number path ...) #f #:required? #t))))
 
 (define (rate-cli)
-  (alist-quoted-bind (command-line-interface) (number path)
+  (alist-bind (command-line-interface) (number path)
     (let (number (string->number number)) (map (l (path) (rate number path)) path))))
 
 (rate-cli)

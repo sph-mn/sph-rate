@@ -5,15 +5,16 @@
 
 (define program-description
   "this program changes the rating of files relative to their current one.
+  direction can be \"up\" or \"down\".
   a rating is designated by a numeric directory in the path unequal to the current path.
   see the \"rate\" program for more information")
 
 (define command-line-interface
-  (cli-create #:description program-description #:options (ql ((direction difference path ...)))))
+  (cli-create #:description program-description #:options (ql ((direction difference path ...) #f))))
 
 (define (rate-modify-cli)
   (let (options (command-line-interface))
-    (alist-quoted-bind options (direction difference path)
+    (alist-bind options (direction difference path)
       (each
         (let (difference (* (if (string-equal? "up" direction) -1 1) (string->number difference)))
           (l (path)
