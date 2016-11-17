@@ -46,7 +46,7 @@
       (if (null? next) #f
         (let*
           ( (a (first next)) (path-current (string-join (reverse next) "/"))
-            (a-number (and (is-directory? path-current) (false-if-exception (string->number a)))))
+            (a-number (and (file-path-directory? path-current) (false-if-exception (string->number a)))))
           (if (and a-number (not (null? prev)))
             (c (string-join (reverse (tail next)) "/") a-number (string-join prev "/"))
             (loop (pair a prev) (tail next)))))))
