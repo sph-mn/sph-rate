@@ -7,11 +7,8 @@
     rate-get-destination-by-current-rating
     rate-get-destination-by-cwd)
   (import
-    (rnrs base)
-    (sph)
+    (sph base)
     (sph conditional)
-    (sph filesystem)
-    (sph string)
     (only (guile)
       string-prefix?
       false-if-exception
@@ -33,7 +30,7 @@
 
   (define (rate number path)
     (let*
-      ( (path-source (path->full-path path))
+      ( (path-source (realpath* path))
         (path-destination
           (or (rate-get-destination-by-current-rating number path-source)
             (rate-get-destination-by-cwd number path-source))))
@@ -42,13 +39,16 @@
           (rename-file path (get-unique-target-path path-destination))))))
 
   (define (path->root-and-rating-and-path& path c)
-    (let loop ((prev (list)) (next (reverse (string-split path #\/))))
+    (let loop ((prev (list)) (next (reverse (path->list path))))
       (if (null? next) #f
         (let*
-          ( (a (first next)) (path-current (string-join (reverse next) "/"))
-            (a-number (and (file-path-directory? path-current) (false-if-exception (string->number a)))))
+          ( (a (first next)) (path-current (list->path (reverse next)))
+            (a-number
+              (and
+                ;(false-if-exception (file-path-directory? path-current))
+                (false-if-exception (string->number a)))))
           (if (and a-number (not (null? prev)))
-            (c (string-join (reverse (tail next)) "/") a-number (string-join prev "/"))
+            (c (list->path (reverse (tail next))) a-number (path->list prev))
             (loop (pair a prev) (tail next)))))))
 
   (define (path->rating-root path)
