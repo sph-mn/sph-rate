@@ -1,7 +1,7 @@
 #!/usr/bin/guile
 !#
 
-(import (sph) (sph alist) (sph rate) (sph cli))
+(import (sph base) (sph cli) (sph rate))
 
 (define program-description
   "this program \"rates\" files by moving them into a numerically named directory.
@@ -17,7 +17,7 @@
   rate 2 /a/b/c -> /2/a/b/c")
 
 (define command-line-interface
-  (cli-create #:description program-description #:options (ql ((number path ...) #f #:required? #t))))
+  (cli-create #:description program-description #:options (list-q ((number path ...) #f #:required? #t))))
 
 (define (rate-cli)
   (alist-bind (command-line-interface) (number path)

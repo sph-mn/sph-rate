@@ -1,7 +1,7 @@
 #!/usr/bin/guile
 !#
 
-(import (sph) (sph filesystem) (sph alist) (sph rate) (sph string) (sph cli))
+(import (sph base) (sph rate) (sph cli))
 
 (define program-description
   "this program changes the rating of files relative to their current one.
@@ -10,7 +10,7 @@
   see the \"rate\" program for more information")
 
 (define command-line-interface
-  (cli-create #:description program-description #:options (ql ((direction difference path ...) #f))))
+  (cli-create #:description program-description #:options (list-q ((direction difference path ...) #f))))
 
 (define (rate-modify-cli)
   (let (options (command-line-interface))
