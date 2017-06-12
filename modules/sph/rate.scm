@@ -1,27 +1,51 @@
 (library (sph rate)
   (export
-    path->rating
-    path->rating-root
-    path->root-and-rating-and-path&
     rate
     rate-get-destination-by-current-rating
-    rate-get-destination-by-cwd)
+    rate-get-destination-by-cwd
+    rate-parse-path
+    rate-path->rating
+    rate-path->root)
   (import
+    (guile)
     (sph base)
-    (sph conditional)
-    (only (guile)
-      string-prefix?
-      false-if-exception
-      getcwd
-      rename-file
-      dirname
-      string-split
-      string-join))
+    (sph conditional))
+
+  (define sph-rate-description
+    "helpers for rating files under numeric directories by moving them into another numeric directory.
+    examples:
+    rate 2 /a/0/b/c -> /a/2/b/c
+    cwd: /a/b
+    rate 2 /a/b/c -> /a/b/2/c
+    cwd: /
+    rate 2 /a/b/c -> /2/a/b/c")
+
+  (define rate-parse-path
+    (let
+      (stop?
+        (l (a)
+          (or (string-null? a) (string-equal? "/" a) (string-equal? "." a) (string-equal? ".." a))))
+      (l (a c)
+        "string procedure:{integer:rating string:rating-root string:sub-path -> any} -> any
+        find the first numeric upper directory. its dirname is the root, its name the rating"
+        (and-let* ((root (and (not (stop? a)) (dirname a))))
+          ; a/1/b/c -> a/1 b c
+          (let loop ((root (dirname root)) (name (basename root)) (path (basename a)))
+            (let (rating (string->number name))
+              (if rating (c rating root path)
+                (if (stop? root) #f
+                  (loop (dirname root) (basename root) (string-append name "/" path))))))))))
+
+  (define (rate-path->root path) "string -> false/string"
+    (rate-parse-path path (l (rating root path) root)))
+
+  (define (rate-path->rating path) "string -> false/integer"
+    (rate-parse-path path (l (rating root path) rating)))
 
   (define (rate-get-destination-by-current-rating number path)
-    (path->root-and-rating-and-path& path
-      (l (root rating path-relative)
-        (get-unique-target-path (string-append root "/" (number->string number) "/" path-relative)))))
+    (rate-parse-path path
+      (l (rating root path)
+        (get-unique-target-path (string-append root "/" (number->string number) "/" path)))))
 
   (define (rate-get-destination-by-cwd number path)
     (let (cwd (getcwd))
@@ -36,23 +60,4 @@
             (rate-get-destination-by-cwd number path-source))))
       (false-if-not path-destination
         (begin (ensure-directory-structure (dirname path-destination))
-          (rename-file path (get-unique-target-path path-destination))))))
-
-  (define (path->root-and-rating-and-path& path c)
-    (let loop ((prev (list)) (next (reverse (path->list path))))
-      (if (null? next) #f
-        (let*
-          ( (a (first next)) (path-current (list->path (reverse next)))
-            (a-number
-              (and
-                ;(false-if-exception (file-path-directory? path-current))
-                (false-if-exception (string->number a)))))
-          (if (and a-number (not (null? prev)))
-            (c (list->path (reverse (tail next))) a-number (path->list prev))
-            (loop (pair a prev) (tail next)))))))
-
-  (define (path->rating-root path)
-    (path->root-and-rating-and-path& path (l (root rating path) root)))
-
-  (define (path->rating path) "string -> integer"
-    (path->root-and-rating-and-path& path (l (root rating path) rating))))
+          (rename-file path (get-unique-target-path path-destination)))))))
