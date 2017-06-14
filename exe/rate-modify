@@ -19,7 +19,7 @@
         (let (difference (* (if (string-equal? "up" direction) -1 1) (string->number difference)))
           (l (path)
             (and-let*
-              ( (current-rating (path->rating (path->full-path path)))
+              ( (current-rating (rate-path->rating (realpath* path)))
                 (new-rating (max 0 (+ current-rating difference))))
               (if (not (equal? current-rating new-rating)) (rate new-rating path)))))
         path))))
