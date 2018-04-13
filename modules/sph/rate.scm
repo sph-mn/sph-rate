@@ -8,7 +8,7 @@
     rate-path->root)
   (import
     (guile)
-    (sph base)
+    (sph common)
     (sph conditional))
 
   (define sph-rate-description

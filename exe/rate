@@ -1,7 +1,7 @@
 #!/usr/bin/guile
 !#
 
-(import (sph base) (sph cli) (sph rate))
+(import (sph common) (sph cli) (sph rate))
 
 (define program-description
   "this program \"rates\" files by moving them into a numerically named directory.
