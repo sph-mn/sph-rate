@@ -16,11 +16,11 @@
   cwd: /
   rate 2 /a/b/c -> /2/a/b/c")
 
-(define command-line-interface
-  (cli-create #:description program-description #:options (list-q ((number path ...) #f #:required? #t))))
+(define cli
+  (cli-create #:description program-description #:options (list-q ((number path ...) #:required? #t))))
 
 (define (rate-cli)
-  (alist-bind (command-line-interface) (number path)
+  (alist-bind (cli) (number path)
     (let (number (string->number number)) (map (l (path) (rate number path)) path))))
 
 (rate-cli)
