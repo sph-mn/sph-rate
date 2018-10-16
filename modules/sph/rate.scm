@@ -8,17 +8,19 @@
     rate-path->root)
   (import
     (guile)
-    (sph common)
-    (sph conditional))
+    (sph)
+    (sph filesystem)
+    (sph other)
+    (sph string))
 
   (define sph-rate-description
     "helpers for rating files under numeric directories by moving them into another numeric directory.
-    examples:
-    rate 2 /a/0/b/c -> /a/2/b/c
-    cwd: /a/b
-    rate 2 /a/b/c -> /a/b/2/c
-    cwd: /
-    rate 2 /a/b/c -> /2/a/b/c")
+     examples:
+     rate 2 /a/0/b/c -> /a/2/b/c
+     cwd: /a/b
+     rate 2 /a/b/c -> /a/b/2/c
+     cwd: /
+     rate 2 /a/b/c -> /2/a/b/c")
 
   (define rate-parse-path
     (let

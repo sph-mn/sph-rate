@@ -1,23 +1,24 @@
 #!/usr/bin/guile
 !#
 
-(import (sph common) (sph cli) (sph rate))
+(import (sph) (sph alist) (sph cli) (sph rate))
 
 (define program-description
   "this program \"rates\" files by moving them into a numerically named directory.
-  first it searches upwards to see if a numeric directory name exists in path, if yes, the
-  relative directory structure of the given path is moved on that level into a directory named like the given number.
-  if no numeric directory exists in path, and the current working directory is in path, a directory named like the given number is created
-  in the current working directory and the given path is moved there. otherwise nothing happens.
-  examples:
-  rate 2 /a/0/b/c -> /a/2/b/c
-  cwd: /a/b
-  rate 2 /a/b/c -> /a/b/2/c
-  cwd: /
-  rate 2 /a/b/c -> /2/a/b/c")
+   first it searches upwards to see if a numeric directory name exists in path, if yes, the
+   relative directory structure of the given path is moved on that level into a directory named like the given number.
+   if no numeric directory exists in path, and the current working directory is in path, a directory named like the given number is created
+   in the current working directory and the given path is moved there. otherwise nothing happens.
+   examples:
+   rate 2 /a/0/b/c -> /a/2/b/c
+   cwd: /a/b
+   rate 2 /a/b/c -> /a/b/2/c
+   cwd: /
+   rate 2 /a/b/c -> /2/a/b/c")
 
 (define cli
-  (cli-create #:description program-description #:options (list-q ((number path ...) #:required? #t))))
+  (cli-create #:description program-description
+    #:options (list-q ((number path ...) #:required? #t))))
 
 (define (rate-cli)
   (alist-bind (cli) (number path)
