@@ -1,7 +1,7 @@
 #!/usr/bin/guile
 !#
 
-(import (sph) (sph alist) (sph rate) (sph cli))
+(import (sph) (sph alist) (sph rate) (sph cli) (sph filesystem) (sph string))
 
 (define program-description
   "this program changes the rating of files relative to their current one.
