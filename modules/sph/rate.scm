@@ -37,7 +37,7 @@
 (define (rate-get-destination-by-current-rating number path)
   (rate-parse-path path
     (l (rating root path)
-      (make-path-unique (string-append root "/" (number->string number) "/" path)))))
+      (get-unique-path (string-append root "/" (number->string number) "/" path)))))
 
 (define (rate-get-destination-by-cwd number path)
   (let (cwd (getcwd))
@@ -52,4 +52,4 @@
           (rate-get-destination-by-cwd number path-source))))
     (false-if-not path-destination
       (begin (ensure-directory-structure (dirname path-destination))
-        (rename-file path (make-path-unique path-destination))))))
+        (rename-file path (get-unique-path path-destination))))))
