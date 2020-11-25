@@ -18,7 +18,7 @@
 
 (define cli
   (cli-create #:description program-description
-    #:options (list-q ((number path ...) #:required? #t))))
+    #:options (q (((number path ...) #:required? #t)))))
 
 (define (rate-cli)
   (alist-bind (cli) (number path)

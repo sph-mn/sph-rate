@@ -10,7 +10,7 @@
   see the \"rate\" program for more information")
 
 (define command-line-interface
-  (cli-create #:description program-description #:options (list-q ((direction difference path ...) #f))))
+  (cli-create #:description program-description #:options (q (((direction difference path ...) #f)))))
 
 (define (rate-modify-cli)
   (let (options (command-line-interface))
