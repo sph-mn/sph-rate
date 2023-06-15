@@ -1,0 +1,80 @@
+<action>
+	<icon></icon>
+	<name>rate 1</name>
+	<submenu></submenu>
+	<unique-id>1368089116042240-8</unique-id>
+	<command>rate 1 %F</command>
+	<description></description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon></icon>
+	<name>rate 2</name>
+	<submenu></submenu>
+	<unique-id>1368089116042297-9</unique-id>
+	<command>rate 2 %F</command>
+	<description></description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon></icon>
+	<name>rate 3</name>
+	<submenu></submenu>
+	<unique-id>1368089116042352-10</unique-id>
+	<command>rate 3 %F</command>
+	<description></description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon></icon>
+	<name>rate 4</name>
+	<submenu></submenu>
+	<unique-id>1457189893297407-1</unique-id>
+	<command>rate 4 %F</command>
+	<description></description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon></icon>
+	<name>rate 5</name>
+	<submenu></submenu>
+	<unique-id>1527926841146023-1</unique-id>
+	<command>rate 5 %F</command>
+	<description></description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
