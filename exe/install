@@ -5,7 +5,7 @@ site="$prefix/usr/share/guile/site"
 
 mkdir -p "$site"
 mkdir -p "$prefix/usr/bin"
-cp -st "$prefix/usr/bin" $PWD/exe/rate $PWD/exe/rate-modify
+cp -t "$prefix/usr/bin" exe/rate exe/rate-modify
 chmod 755 "$prefix/usr/bin/rate" "$prefix/usr/bin/rate-modify"
-cp -rst "$site" $PWD/modules/sph
+cp -rt "$site" modules/sph
 chmod 755 "$site/sph/rate.scm"

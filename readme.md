@@ -5,17 +5,25 @@ move files into 1/2/3/n rating directories. the most efficient way to sort and a
 rate options ... number path ...
 
 ## description
-this program "rates" files by moving them into a numerically named directory.
-first it searches upwards to see if a numeric directory name exists in path, if yes, the relative directory structure of the given path is moved on that level into a directory named like the given number.
-if no numeric directory exists in path, and the current working directory is in path, a directory named like the given number is created in the current working directory and the given path is moved there. otherwise nothing happens.
+this program sorts files by moving them into and between numerically named directories.
+first it searches upwards to see if a numeric directory name exists in path, if yes, then only the file hierarchy under that number is moved into a directory with the given number.
+if no numeric directory exists in path, a numeric directory is created in the current working directory and given paths are moved under there.
 
 ## examples:
 ~~~
+cwd: /
 rate 2 /a/0/b/c -> /a/2/b/c
-cwd: /a/b
-rate 2 /a/b/c -> /a/b/2/c
+~~~
+
+~~~
 cwd: /
 rate 2 /a/b/c -> /2/a/b/c
+~~~
+
+~~~
+cwd: /a/b
+rate 2 /a/b/c -> /a/b/2/c
+~~~
 
 ## options
 ~~~
@@ -24,11 +32,15 @@ rate 2 /a/b/c -> /2/a/b/c
 ~~~
 
 # dependencies
-* guile
+* [guile](https://www.gnu.org/software/guile/)
 * [sph-lib](https://github.com/sph-mn/sph-lib)
 
 # license
 * gpl3+
+
+# installation
+* install dependencies
+* execute ./exe/install
 
 # custom thunar right-click-menu actions
 ## option: manually add with commands like this
@@ -45,7 +57,7 @@ this adds five new right-click commands in thunar:
 * rate 4
 * rate 5
 
-insert the contents of [other/uca.xml](other/uca.xml) between <action> and </action> in $HOME/.config/Thunar/uca.xml.
+insert the contents of [other/uca.xml](other/uca.xml) between the action and /action tags in $HOME/.config/Thunar/uca.xml.
 
 if uca.xml does not yet exist, it can be initialized with the following content or by creating the first custom command via the thunar gui.
 ~~~
@@ -53,3 +65,7 @@ if uca.xml does not yet exist, it can be initialized with the following content 
 <actions>
 </actions>
 ~~~
+
+# possible enhancements
+* reduce dependencies
+* rewrite in c
